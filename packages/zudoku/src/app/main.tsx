@@ -2,13 +2,13 @@ import { redirect, type RouteObject } from "react-router-dom";
 import { configuredApiKeysPlugin } from "virtual:zudoku-api-keys-plugin";
 import { configuredApiPlugins } from "virtual:zudoku-api-plugins";
 import { configuredAuthProvider } from "virtual:zudoku-auth";
+import { configuredCustomPagesPlugin } from "virtual:zudoku-custom-pages-plugin";
 import { configuredDocsPlugins } from "virtual:zudoku-docs-plugins";
 import { configuredRedirectPlugin } from "virtual:zudoku-redirect-plugin";
 import { configuredSidebar } from "virtual:zudoku-sidebar";
 import "virtual:zudoku-theme.css";
 import { DevPortal, Layout, RouterError } from "zudoku/components";
 import { isNavigationPlugin } from "zudoku/internal";
-import { customPagePlugin } from "zudoku/plugins/custom-page";
 import { inkeepSearchPlugin } from "zudoku/plugins/search-inkeep";
 import type { ZudokuConfig } from "../config/config.js";
 import { traverseSidebar } from "../lib/components/navigation/utils.js";
@@ -42,7 +42,7 @@ export const convertZudokuConfigToOptions = (
         },
       },
     },
-    slotlets: config.slotlets,
+    slotlets: config.UNSAFE_slotlets,
     metadata: {
       favicon: "https://cdn.zudoku.dev/logos/favicon.svg",
       title: "%s - Zudoku",
@@ -60,7 +60,7 @@ export const convertZudokuConfigToOptions = (
       ...configuredApiPlugins,
       ...(configuredRedirectPlugin ? [configuredRedirectPlugin] : []),
       ...(configuredApiKeysPlugin ? [configuredApiKeysPlugin] : []),
-      ...(config.customPages ? [customPagePlugin(config.customPages)] : []),
+      ...(configuredCustomPagesPlugin ? [configuredCustomPagesPlugin] : []),
       ...(configuredAuthProvider?.getAuthenticationPlugin
         ? [configuredAuthProvider.getAuthenticationPlugin()]
         : []),
