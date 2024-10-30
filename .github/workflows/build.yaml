@@ -65,16 +65,16 @@ jobs:
         id: stats-file
 
       - name: "Authenticate to Google Cloud"
-        if: steps.stats-file.outputs.exists == 'true'
+        if: steps.stats-file.outputs.exists == 'true' && github.repository == 'zuplo/zudoku'
         uses: "google-github-actions/auth@v2"
         with:
           token_format: "access_token"
-          workload_identity_provider: ${{ vars.GCP_ACTIONS_IDENTITY_PROVIDER }}
+          workload_identity_provider: projects/914576303414/locations/global/workloadIdentityPools/github-actions-wi-pool/providers/github-actions-wi-provider
           service_account: github-actions-opensource@zuplo-production.iam.gserviceaccount.com
           access_token_lifetime: "300s"
 
       - name: Upload Artifacts
-        if: steps.stats-file.outputs.exists == 'true'
+        if: steps.stats-file.outputs.exists == 'true' && github.repository == 'zuplo/zudoku'
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
           process_gcloudignore: false
@@ -85,7 +85,7 @@ jobs:
             content-type: text/html
 
       - name: Write Summary
-        if: steps.stats-file.outputs.exists == 'true'
+        if: steps.stats-file.outputs.exists == 'true' && github.repository == 'zuplo/zudoku'
         run: |
           echo "📝 Bundle stats uploaded" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
