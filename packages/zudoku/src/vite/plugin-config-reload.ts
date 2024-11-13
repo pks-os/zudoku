@@ -11,13 +11,12 @@ export const createConfigReloadPlugin = (
   let currentConfig = initialConfig;
   let importDependencies = initialConfig.__meta.dependencies;
 
-  const plugin = {
+  const plugin: Plugin = {
     name: "zudoku-config-reload",
     configureServer: ({ watcher, restart }) => {
       if (!onConfigChange) return;
 
       watcher.on("change", async (file) => {
-        if (!file.startsWith(currentConfig.rootDir)) return;
         if (!importDependencies.includes(file)) return;
 
         const newConfig = await onConfigChange();
@@ -34,7 +33,7 @@ export const createConfigReloadPlugin = (
         );
       });
     },
-  } satisfies Plugin;
+  };
 
   return [plugin, () => currentConfig] as const;
 };
