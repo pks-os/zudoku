@@ -4,10 +4,10 @@
   "parallel": 5,
   "targetDefaults": {
     "dev": {
-      "dependsOn": ["zudoku:build"]
+      "dependsOn": ["^build"]
     },
     "build": {
-      "dependsOn": ["zudoku:build"],
+      "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/dist"],
       "cache": false
     },
@@ -27,8 +27,11 @@
       }
     }
   ],
+  "cli": {
+    "packageManager": "pnpm"
+  },
   "release": {
-    "projects": ["zudoku", "create-zudoku-app"],
+    "projects": ["zudoku", "create-zudoku-app", "config"],
     "releaseTagPattern": "v{version}",
     "versionPlans": true,
     "version": {
@@ -52,5 +55,6 @@
         }
       }
     }
-  }
+  },
+  "nxCloudId": "66c785a803393268ce035946"
 }
