@@ -1,6 +1,6 @@
 {
   "name": "zudoku",
-  "version": "0.15.0",
+  "version": "0.15.2",
   "type": "module",
   "homepage": "https://zudoku.dev",
   "repository": {
@@ -155,7 +155,7 @@
     "@radix-ui/react-popover": "1.1.2",
     "@radix-ui/react-progress": "1.1.0",
     "@radix-ui/react-radio-group": "1.2.1",
-    "@radix-ui/react-scroll-area": "1.2.0",
+    "@radix-ui/react-scroll-area": "1.2.1",
     "@radix-ui/react-select": "2.1.2",
     "@radix-ui/react-slider": "1.2.1",
     "@radix-ui/react-slot": "1.1.0",
@@ -173,7 +173,7 @@
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.1",
-    "@zudoku/config": "0.15.0",
+    "@zudoku/config": "0.15.2",
     "@zudoku/httpsnippet": "10.0.9",
     "@zudoku/react-helmet-async": "2.0.4",
     "autoprefixer": "10.4.20",
