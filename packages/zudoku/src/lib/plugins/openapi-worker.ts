@@ -1,1 +1,1 @@
-export { createClient } from "./openapi/client/createWorkerClient.js";
+export { GraphQLClient } from "./openapi/client/GraphQLClient.js";

@@ -207,7 +207,6 @@ export async function getViteConfig(
       exclude: [
         // Vite does not like optimizing the worker dependency
         "zudoku/openapi-worker",
-        "worker",
       ],
     },
     // Workaround for Pre-transform error for "virtual" file: https://github.com/vitejs/vite/issues/15374
