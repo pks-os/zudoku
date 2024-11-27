@@ -6,10 +6,10 @@ import { pastellize } from "../../util/pastellize.js";
 export const DATA_ATTR = "data-linked-param";
 
 export const usePastellizedColor = (name: string) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   return pastellize(
     name,
-    theme === "light" ? { saturation: 85, lightness: 50 } : undefined,
+    resolvedTheme === "light" ? { saturation: 85, lightness: 50 } : undefined,
   );
 };
 
@@ -80,6 +80,7 @@ export const ColorizedParam = ({
         "after:pointer-events-none after:border-[--border-color] after:opacity-30 after:data-[active=true]:opacity-100",
         className,
       )}
+      suppressHydrationWarning
       ref={ref}
       onClick={onClick}
       style={
