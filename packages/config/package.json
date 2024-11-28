@@ -1,7 +1,7 @@
 {
   "name": "@zudoku/config",
   "type": "module",
-  "version": "0.17.0",
+  "version": "0.18.1",
   "keywords": [
     "zudoku"
   ],
@@ -30,6 +30,6 @@
   },
   "devDependencies": {
     "@types/node": "20.16.11",
-    "typescript": "5.6.3"
+    "typescript": "5.7.2"
   }
 }

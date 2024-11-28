@@ -1,6 +1,6 @@
 {
   "name": "zudoku",
-  "version": "0.17.0",
+  "version": "0.18.1",
   "type": "module",
   "homepage": "https://zudoku.dev",
   "repository": {
@@ -24,7 +24,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./ui/*": "./src/ui/*",
+    "./ui/*": "./src/lib/ui/*",
     "./auth/clerk": "./src/lib/authentication/providers/clerk.ts",
     "./auth/auth0": "./src/lib/authentication/providers/auth0.ts",
     "./auth/openid": "./src/lib/authentication/providers/openid.ts",
@@ -174,7 +174,7 @@
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.1",
-    "@zudoku/config": "0.17.0",
+    "@zudoku/config": "0.18.1",
     "@zudoku/httpsnippet": "10.0.9",
     "@zudoku/react-helmet-async": "2.0.4",
     "autoprefixer": "10.4.20",
@@ -220,6 +220,7 @@
     "rollup": "4.24.0",
     "semver": "7.6.3",
     "sitemap": "8.0.0",
+    "spin-delay": "2.0.1",
     "strip-ansi": "7.1.0",
     "tailwind-merge": "2.5.4",
     "tailwindcss": "3.4.13",
@@ -236,9 +237,9 @@
     "zustand": "5.0.0"
   },
   "devDependencies": {
-    "@types/estree": "1.0.6",
     "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/client-preset": "4.5.0",
+    "@types/estree": "1.0.6",
     "@types/express": "5.0.0",
     "@types/har-format": "1.2.15",
     "@types/json-schema": "7.0.15",
@@ -253,7 +254,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rollup-plugin-visualizer": "5.12.0",
-    "typescript": "5.6.3"
+    "typescript": "5.7.2"
   },
   "peerDependencies": {
     "react": ">=18",
