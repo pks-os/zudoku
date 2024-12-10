@@ -1,6 +1,6 @@
 {
   "name": "zudoku",
-  "version": "0.18.3",
+  "version": "0.18.4",
   "type": "module",
   "homepage": "https://zudoku.dev",
   "repository": {
@@ -40,7 +40,8 @@
     "./vite": "./src/vite/plugin.ts",
     "./tailwind": "./src/app/tailwind.ts",
     "./app/*": "./src/app/*",
-    "./post-processors/*": "./src/lib/plugins/openapi/post-processors/*.ts"
+    "./post-processors/*": "./src/lib/plugins/openapi/post-processors/*.ts",
+    "./with-zuplo": "./src/zuplo/with-zuplo.ts"
   },
   "publishConfig": {
     "module": "./dist/index.js",
@@ -127,6 +128,10 @@
       },
       "./app/*": {
         "import": "./src/app/*"
+      },
+      "./with-zuplo": {
+        "require": "./dist/zuplo/with-zuplo.js",
+        "import": "./dist/zuplo/with-zuplo.js"
       }
     }
   },
@@ -178,8 +183,8 @@
     "@tanstack/react-query": "5.61.0",
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.1",
-    "@vitejs/plugin-react": "4.3.1",
-    "@zudoku/config": "workspace:*",
+    "@vitejs/plugin-react": "4.3.4",
+    "@zudoku/config": "0.18.4",
     "@zudoku/httpsnippet": "10.0.9",
     "@zudoku/react-helmet-async": "2.0.4",
     "autoprefixer": "10.4.20",
