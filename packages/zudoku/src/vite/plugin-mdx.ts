@@ -2,6 +2,7 @@ import rehypeMetaAsAttributes from "@lekoarts/rehype-meta-as-attributes";
 import mdx from "@mdx-js/rollup";
 import withToc from "@stefanprobst/rehype-extract-toc";
 import withTocExport from "@stefanprobst/rehype-extract-toc/mdx";
+import { toString as hastToString } from "hast-util-to-string";
 import type { Root } from "mdast";
 import path from "node:path";
 import rehypeSlug from "rehype-slug";
@@ -11,7 +12,7 @@ import remarkDirectiveRehype from "remark-directive-rehype";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { visit } from "unist-util-visit";
+import { EXIT, visit } from "unist-util-visit";
 import { type Plugin } from "vite";
 import { type ZudokuPluginOptions } from "../config/config.js";
 import { remarkStaticGeneration } from "./remarkStaticGeneration.js";
@@ -25,17 +26,27 @@ const rehypeCodeBlockPlugin = () => (tree: any) => {
   });
 };
 
-const remarkLinkRewritePlugin = () => (tree: Root) => {
-  visit(tree, "link", (node) => {
-    if (!node.url) return;
+const remarkLinkRewritePlugin =
+  (basePath = "") =>
+  (tree: Root) => {
+    visit(tree, "link", (node) => {
+      if (!node.url) return;
 
-    if (!node.url.startsWith("http") && !node.url.startsWith("/")) {
-      node.url = path.join("../", node.url);
-    }
+      const base = path.join(basePath);
+      if (node.url.startsWith(base)) {
+        node.url = node.url.slice(base.length);
+      } else if (
+        !node.url.startsWith("http") &&
+        !node.url.startsWith("mailto:") &&
+        !node.url.startsWith("/") &&
+        !node.url.startsWith("#")
+      ) {
+        node.url = path.join("../", node.url);
+      }
 
-    node.url = node.url.replace(/\.mdx?(#.*?)?/, "$1");
-  });
-};
+      node.url = node.url.replace(/\.mdx?(#.*?)?/, "$1");
+    });
+  };
 
 const rehypeMediaBasePath =
   (basePath = "") =>
@@ -51,6 +62,54 @@ const rehypeMediaBasePath =
       }
     });
   };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const rehypeExcerptWithMdxExport = () => (tree: any, _vfile: any) => {
+  let excerpt: string | undefined;
+
+  visit(tree, "element", (node) => {
+    if (node.tagName !== "p") return;
+
+    excerpt = hastToString(node);
+    return EXIT;
+  });
+
+  if (!excerpt) return;
+
+  // Inject the excerpt as a named export into the MDX AST
+  // Injection code taken from @stefanprobst/rehype-extract-toc/mdx
+  tree.children.unshift({
+    type: "mdxjsEsm",
+    data: {
+      estree: {
+        type: "Program",
+        sourceType: "module",
+        body: [
+          {
+            type: "ExportNamedDeclaration",
+            source: null,
+            specifiers: [],
+            declaration: {
+              type: "VariableDeclaration",
+              kind: "const",
+              declarations: [
+                {
+                  type: "VariableDeclarator",
+                  id: { name: "excerpt", type: "Identifier" },
+                  init: {
+                    type: "Literal",
+                    value: excerpt,
+                    raw: JSON.stringify(excerpt),
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  });
+};
 
 const viteMdxPlugin = (getConfig: () => ZudokuPluginOptions): Plugin => {
   const config = getConfig();
@@ -72,7 +131,7 @@ const viteMdxPlugin = (getConfig: () => ZudokuPluginOptions): Plugin => {
         remarkMdxFrontmatter,
         remarkDirective,
         remarkDirectiveRehype,
-        remarkLinkRewritePlugin,
+        [remarkLinkRewritePlugin, config.basePath],
         ...(config.build?.remarkPlugins ?? []),
       ],
       rehypePlugins: [
@@ -82,6 +141,7 @@ const viteMdxPlugin = (getConfig: () => ZudokuPluginOptions): Plugin => {
         [rehypeMediaBasePath, config.basePath],
         withToc,
         withTocExport,
+        rehypeExcerptWithMdxExport,
         ...(config.build?.rehypePlugins ?? []),
       ],
     }),
