@@ -390,6 +390,10 @@ const Schema = builder.objectRef<OpenAPIDocument>("Schema").implement({
       resolve: (root) => root.info.description,
       nullable: true,
     }),
+    summary: t.string({
+      resolve: (root) => root.info.summary,
+      nullable: true,
+    }),
     paths: t.field({
       type: [PathItem],
       resolve: (root) =>
@@ -439,7 +443,6 @@ const SchemaSource = builder.enumType("SchemaType", {
 
 builder.queryType({
   fields: (t) => ({
-    // https://tan-cow-main-bce8a06.d2.zuplo.dev/openapi
     schema: t.field({
       type: Schema,
       args: {
