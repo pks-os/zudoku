@@ -50,6 +50,8 @@ const config: ZudokuConfig = {
           "configuration/navigation",
           "configuration/search",
           "configuration/authentication",
+          "configuration/customization",
+          "configuration/sentry",
           "configuration/vite-config",
         ],
       },

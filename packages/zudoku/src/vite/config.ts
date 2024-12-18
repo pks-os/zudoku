@@ -171,6 +171,9 @@ export async function getViteConfig(
     worker: {
       format: "es",
     },
+    define: {
+      "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
+    },
     ssr: {
       target: "node",
       noExternal: [],
@@ -228,7 +231,7 @@ export async function getViteConfig(
           ? getAppServerEntryPath()
           : getAppClientEntryPath(),
       ],
-      include: ["react-dom/client"],
+      include: ["react-dom/client", "@sentry/react"],
       exclude: [
         // Vite does not like optimizing the worker dependency
         "zudoku/openapi-worker",
@@ -246,7 +249,7 @@ export async function getViteConfig(
       postcss: {
         plugins: [
           tailwindcss({
-            ...tailwindConfig,
+            ...tailwindConfig(config),
             content: [
               // Zudoku components and styles
               // Tailwind seems to crash if it tries to parse compiled .js files
