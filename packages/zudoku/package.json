@@ -1,6 +1,6 @@
 {
   "name": "zudoku",
-  "version": "0.21.9",
+  "version": "0.21.12",
   "type": "module",
   "homepage": "https://zudoku.dev",
   "repository": {
@@ -197,7 +197,6 @@
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
-    "dotenv": "16.4.5",
     "embla-carousel-react": "8.3.1",
     "estree-util-value-to-estree": "3.2.1",
     "express": "4.21.1",
