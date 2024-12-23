@@ -72,6 +72,7 @@ async function getConfigFilePath(
 async function loadZudokuCodeConfig<TConfig>(
   rootDir: string,
   configPath: string,
+  envVars: Record<string, string | undefined>,
 ): Promise<{ dependencies: string[]; config: TConfig }> {
   const configFilePath = pathToFileURL(configPath).href;
 
@@ -92,8 +93,6 @@ async function loadZudokuCodeConfig<TConfig>(
   if (!config) {
     throw new Error(`Failed to load config file: ${configPath}`);
   }
-
-  validateConfig(config);
 
   return { dependencies, config };
 }
@@ -157,11 +156,25 @@ function replaceEnvVariables(
   return obj;
 }
 
+type LoadZudokuConfigFn = <TConfig>(
+  rootDir: string,
+  configPath: string,
+  envVars: Record<string, string | undefined>,
+) => Promise<{
+  dependencies: string[];
+  config: TConfig;
+}>;
+
+export type ConfigLoaderOverrides = {
+  loadZudokuCodeConfig?: LoadZudokuConfigFn;
+};
+
 // WARNING: If you change function signature, you must also change the
 // corresponding type in packages/config/src/index.d.ts
 export async function tryLoadZudokuConfig<TConfig extends CommonConfig>(
   rootDir: string,
   envVars: Record<string, string | undefined>,
+  overrides?: ConfigLoaderOverrides,
 ): Promise<ConfigWithMeta<TConfig>> {
   const { configPath, configType } = await getConfigFilePath(rootDir);
 
@@ -171,10 +184,15 @@ export async function tryLoadZudokuConfig<TConfig extends CommonConfig>(
     config = await loadDevPortalConfig<TConfig>(configPath, envVars);
     dependencies = [];
   } else {
-    ({ config, dependencies } = await loadZudokuCodeConfig<TConfig>(
+    const fn = overrides?.loadZudokuCodeConfig ?? loadZudokuCodeConfig;
+    ({ config, dependencies } = await fn<TConfig>(
       rootDir,
       configPath,
+      envVars,
     ));
+    // This is here instead of in the load function so that
+    // it works even if we are overriding the load function
+    validateConfig(config);
   }
 
   const configWithMetadata: ConfigWithMeta<TConfig> = {
