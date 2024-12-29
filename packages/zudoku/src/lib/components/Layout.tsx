@@ -1,7 +1,7 @@
 import { Helmet } from "@zudoku/react-helmet-async";
 import { PanelLeftIcon } from "lucide-react";
 import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
-import { Outlet, useLocation, useNavigation } from "react-router-dom";
+import { Outlet, useLocation, useNavigation } from "react-router";
 import { useSpinDelay } from "spin-delay";
 import { Drawer, DrawerTrigger } from "../ui/Drawer.js";
 import { cn } from "../util/cn.js";
@@ -66,7 +66,7 @@ export const Layout = ({ children }: { children?: ReactNode }) => {
       <Header />
       <Slotlet name="layout-after-head" />
 
-      <div className="w-full max-w-screen-2xl mx-auto px-10 lg:px-12">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 lg:px-12">
         {showSpinner ? (
           <LoadingFallback />
         ) : (
