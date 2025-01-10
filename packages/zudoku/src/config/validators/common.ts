@@ -61,7 +61,10 @@ const ApiSchema = z.union([
     .object({ type: z.literal("url"), input: z.string() })
     .merge(ApiConfigSchema),
   z
-    .object({ type: z.literal("file"), input: z.string() })
+    .object({
+      type: z.literal("file"),
+      input: z.union([z.string(), z.array(z.string())]),
+    })
     .merge(ApiConfigSchema)
     .merge(
       z.object({ postProcessors: ApiPostProcessorSchema.array().optional() }),
@@ -284,6 +287,7 @@ const ApiCatalogSchema = z.object({
   navigationId: z.string(),
   label: z.string(),
   items: z.array(z.string()).optional(),
+  filterItems: z.function().args(z.any()).returns(z.any()),
 });
 
 /**
@@ -307,7 +311,7 @@ export const CommonConfigSchema = z.object({
   search: SearchSchema,
   docs: z.union([DocsConfigSchema, z.array(DocsConfigSchema)]),
   apis: z.union([ApiSchema, z.array(ApiSchema)]),
-  catalog: z.union([ApiCatalogSchema, z.array(ApiCatalogSchema)]),
+  catalogs: z.union([ApiCatalogSchema, z.array(ApiCatalogSchema)]),
   apiKeys: ApiKeysSchema,
   redirects: z.array(Redirect),
   sitemap: SiteMapSchema,

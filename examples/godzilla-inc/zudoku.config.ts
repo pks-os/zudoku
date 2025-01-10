@@ -7,16 +7,11 @@ const config: ZudokuConfig = {
   ],
   redirects: [{ from: "/", to: "/general" }],
   sidebar: {
-    general: [
-      "general",
-      { label: "Configuration", id: "general/configuration" },
-      { label: "Authentication", id: "general/authentication" },
-      { label: "Search", id: "general/search" },
-    ],
+    general: ["general"],
   },
-  catalog: {
+  catalogs: {
     navigationId: "catalog",
-    label: "Foo",
+    label: "API Catalog",
   },
   apis: [
     {
@@ -33,15 +28,15 @@ const config: ZudokuConfig = {
     },
     {
       type: "file",
-      input: "./schema/logistics.json",
+      input: ["./schema/logisticsV2.json", "./schema/logistics.json"],
       navigationId: "api-logistics",
-      categories: [{ label: "General", tags: ["Operational"] }],
+      categories: [{ label: "Non-General", tags: ["Operational"] }],
     },
     {
       type: "file",
       input: "./schema/destructive.json",
       navigationId: "api-destructive",
-      categories: [{ label: "General", tags: ["End-User"] }],
+      categories: [{ label: "Non-General", tags: ["End-User"] }],
     },
   ],
   docs: {
