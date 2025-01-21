@@ -1,6 +1,6 @@
 {
   "name": "zudoku",
-  "version": "0.25.0",
+  "version": "0.25.2",
   "type": "module",
   "homepage": "https://zudoku.dev",
   "repository": {
@@ -184,7 +184,7 @@
     "@sentry/node": "8.42.0",
     "@sindresorhus/slugify": "2.2.1",
     "@stefanprobst/rehype-extract-toc": "2.2.0",
-    "@tailwindcss/typography": "0.5.15",
+    "@tailwindcss/typography": "0.5.16",
     "@tanstack/react-query": "5.62.3",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -277,7 +277,7 @@
     "mdast-util-mdx": "3.0.0",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "rollup-plugin-visualizer": "5.12.0",
+    "rollup-plugin-visualizer": "5.14.0",
     "typescript": "5.7.2",
     "vitest": "2.1.8"
   },
@@ -287,6 +287,6 @@
   },
   "optionalDependencies": {
     "@clerk/clerk-js": "^5.43.4",
-    "@sentry/react": "^8.48.0"
+    "@sentry/react": "^8.50.0"
   }
 }
